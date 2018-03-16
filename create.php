@@ -27,8 +27,6 @@ echo '<form method="post" action="create.php" enctype="multipart/form-data">
     	$type= $_FILES['song_url']['type'];
     	$tmp_name = $_FILES['song_url']['tmp_name'];
     	$song_path = $dir.basename($_FILES['song_url']['name']);
-   
-    	 //if ((($type == "mp3") || ($type == "video/mp4") || ($type == "wav")) && ($size < 1000000)){
     	 	var_dump($song_path);
 	            move_uploaded_file($tmp_name,$song_path);
     			echo 'you added the song successfully';
@@ -41,7 +39,6 @@ echo '<form method="post" action="create.php" enctype="multipart/form-data">
 			}else{
 				echo "Неуспешно добавяне на запис в базата данни! Моля опитайте по-късно!";
 			}
-		//}
     }	else{
     	echo "<a href='create.php'>Create</a>";
     }
