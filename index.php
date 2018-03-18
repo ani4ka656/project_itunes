@@ -7,7 +7,7 @@ if(isset($_POST['user_name']) && isset($_POST['user_password'])){
 	$check_query = "SELECT * FROM `users_info` WHERE user_name = '$user_name' AND user_password = '$user_password'";
 	$result = mysqli_query($conn,$check_query);
 	if ($result) {
-		echo "<h3>Welcome</h3>";
+		echo "<h3 class='text-center'>Welcome</h3>";
 		$row = mysqli_fetch_assoc($result);
 		echo "<div class='btn btn-default btn-lg'><a href='create.php?user_id=" .$row['user_id']. "'>ADD UNIT</a></div>";
 		echo '<div>'; 
@@ -20,6 +20,18 @@ if(isset($_POST['user_name']) && isset($_POST['user_password'])){
 				//echo "<div class='btn btn-info'><a href='create.php?user_id=" .$row['user_id']. "'>ADD UNIT</a></div>"; 
 				echo "<table border=1 class='table table-striped'>";
 				echo "<tr>";
+			echo "<td>Song id</td>";
+			echo "<td>Song name </td>";
+			echo "<td>Song url</td>";
+			echo "<td>Song artist</td>";
+			echo "<td>Date of publishing</td>";
+			echo "<td>User who published it</td>";
+			echo "<td>Rate</td>";
+			echo "<td>Update</td>";
+			echo "<td>Delete</td>";
+			echo "<td>Rate</td>";
+			echo "</tr>";
+				echo "<tr class='info'>";
 				echo "<td>" . $row['song_id'] . ' </td><td>'.$row['song_name'] . '</td><td>'.$row['song_url'] . '</td><td>'.$row['singer_name'] . '</td><td>'.$row['date_of_publishing'] . '</td><td>'.$row['user_name'] . '</td><td>'.$row['rate'] . '</td>';
 
 				echo "<td><a href='update.php?song_id=" . $row['song_id'] . "'>Update</a></td>";
