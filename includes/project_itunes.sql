@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time:  5 март 2018 в 21:11
+-- Generation Time: 18 март 2018 в 07:16
 -- Версия на сървъра: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -33,6 +33,14 @@ CREATE TABLE `singers` (
   `singer_name` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Схема на данните от таблица `singers`
+--
+
+INSERT INTO `singers` (`singer_id`, `singer_name`) VALUES
+(1, 'BTS'),
+(2, 'Ed Sheeran');
+
 -- --------------------------------------------------------
 
 --
@@ -42,11 +50,21 @@ CREATE TABLE `singers` (
 CREATE TABLE `songs` (
   `song_id` int(11) NOT NULL,
   `song_name` varchar(300) NOT NULL,
+  `song_url` varchar(200) NOT NULL,
   `singer_id` int(11) NOT NULL,
   `date_of_publishing` date NOT NULL,
   `user_id` int(11) NOT NULL,
-  `rate` int(5) NOT NULL DEFAULT '0'
+  `rate` int(5) NOT NULL DEFAULT '0',
+  `date_deleted` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Схема на данните от таблица `songs`
+--
+
+INSERT INTO `songs` (`song_id`, `song_name`, `song_url`, `singer_id`, `date_of_publishing`, `user_id`, `rate`, `date_deleted`) VALUES
+(1, 'Mic Drop', 'BTS (방탄소년단) MIC Drop (Steve Aoki Remix) Official MV.mp3', 1, '2018-03-16', 1, 4, NULL),
+(2, 'Photograph', 'Ed Sheeran - Photograph with lyrics.mp3', 2, '2018-03-16', 2, 4, NULL);
 
 -- --------------------------------------------------------
 
@@ -58,16 +76,17 @@ CREATE TABLE `users_info` (
   `user_id` int(11) NOT NULL,
   `user_name` varchar(40) NOT NULL,
   `quantity_downloaded_songs` int(255) DEFAULT NULL,
-  `user_password` int(11) NOT NULL
+  `user_password` int(11) NOT NULL,
+  `rate_of_user` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Схема на данните от таблица `users_info`
 --
 
-INSERT INTO `users_info` (`user_id`, `user_name`, `quantity_downloaded_songs`, `user_password`) VALUES
-(1, 'user1', 0, 1234),
-(2, 'user2', 0, 5678);
+INSERT INTO `users_info` (`user_id`, `user_name`, `quantity_downloaded_songs`, `user_password`, `rate_of_user`) VALUES
+(1, 'user1', 0, 1234, NULL),
+(2, 'user2', 0, 5678, NULL);
 
 -- --------------------------------------------------------
 
@@ -77,8 +96,17 @@ INSERT INTO `users_info` (`user_id`, `user_name`, `quantity_downloaded_songs`, `
 
 CREATE TABLE `users_songs` (
   `user_id` int(11) NOT NULL,
-  `song_id` int(11) NOT NULL
+  `song_id` int(11) NOT NULL,
+  `rate_of _user` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Схема на данните от таблица `users_songs`
+--
+
+INSERT INTO `users_songs` (`user_id`, `song_id`, `rate_of _user`) VALUES
+(1, 1, 4),
+(2, 1, 4);
 
 --
 -- Indexes for dumped tables
@@ -119,13 +147,13 @@ ALTER TABLE `users_songs`
 -- AUTO_INCREMENT for table `singers`
 --
 ALTER TABLE `singers`
-  MODIFY `singer_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `singer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `songs`
 --
 ALTER TABLE `songs`
-  MODIFY `song_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `song_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users_info`

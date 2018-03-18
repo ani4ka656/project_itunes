@@ -1,6 +1,9 @@
 <!--start of footer-->
+</div>
 <footer>
-	<p>Footer</p>
+	<div class="text-center">
+		<p>Just some text</p>
+	</div>
 </footer>
 </body>
 </html>
