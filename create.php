@@ -3,7 +3,7 @@ include('includes/db.php');
 include('includes/header.php');
 session_start();
 if(empty($_POST['submit'])){
-	$user_id = $_GET['user_id'];
+	$user_id = $_SESSION['user_id'];
 	var_dump($user_id);
 	var_dump($_SESSION['username']);
 	echo '<h3 class=" col-md-offset-0 text-center">Форма:</h3>
@@ -21,7 +21,7 @@ if(empty($_POST['submit'])){
 				}
 				echo '</select>
 				</label>
-				<label for="song_name">Add the name of the song:
+				<label for="song_name">Въведете името на песента:
 					<input type="text" name="song_name" class="form-control" id="song_name"/>
 				</label>
 					<input type="hidden" name="user_id" class="form-control" id="user_id"value=" . $row["user_id"] . "/>
@@ -47,34 +47,42 @@ if(empty($_POST['submit'])){
     	$submitbutton= $_POST['submit'];
     	//$dir = "songs/";
     	var_dump($_FILES);
-    	if($type != "audio/mp3" && $type != "audio/wav" && $type != "video/mp4") {
-
-    				echo("Error description: " . mysqli_error($conn)) . " Error NO - ";
-		echo  mysqli_errno($conn);
-    		echo "Качвате файл, различен от формата mp3,mp4,wav!";
-    	}
-    	if($_FILES['song_url']['error'] == 1){
-    		echo "Качвате твърде голям файл!";
-    		echo("Error description: " . mysqli_error($conn)) . " Error NO - ";
-			echo  mysqli_errno($conn);
+    	//if($_FILES['song_url']['error'] == 0){
+    	//	echo "Не можете да качите песента!";
+    	//}
+    	//if($type != "audio/mp3" || $type != "audio/wav" || $type != "video/mp4") {
+		//	echo("Error description: " . mysqli_error($conn)) . " Error NO - ";
+		//	echo  mysqli_errno($conn);
+    	//	echo "Качвате файл, различен от формата mp3,mp4,wav!";
+    	//}
+    	//if($_FILES['song_url']['error'] == 1){
+    	//	echo "Качвате твърде голям файл!";
+    	//	echo("Error description: " . mysqli_error($conn)) . " Error NO - ";
+		//	echo  mysqli_errno($conn);
     	} else {
     	var_dump($_FILES);
+ 		$time=	time('Y-m-d-h-m-s');
+    	var_dump($time);
 		if (isset($name)) {
 		$path= 'songs/';
 		if (!empty($name)){
 			if (move_uploaded_file($tmp_name, $path.$name)) {
-			echo 'Uploaded!';
-			if(!empty($song_name) && !empty($singer_name)){
-				mysql_query('INSERT INTO `songs`(`song_name`,`song_url`, `singer_id`, `date_of_publishing`, `user_id`) VALUES ("$song_name","$path.$name","$singer_id","$date",$_SESSION["user_id"])');
+			if(!empty($song_name) && !empty($singer_id)){
+				$add_song ='INSERT INTO `songs`(`song_name`,`song_url`, `singer_id`, `date_of_publishing`, `user_id`) VALUES ("$song_name","md5($path.$name.$time)","$singer_id","$date",$_SESSION["user_id"])';
+				$add_res=mysqli_query($conn,$add_song);
+				if($add_song)
+				{
+					echo 'Успешно качена!';
+				}
 			}
 		} elseif (file_exists($filename)) {
-    			echo "The file $name already exists";
+    			echo "Файлът $name вече съществува";
 		}
 		}
 		}
 	}
 	}
-}
+//}
 include('includes/footer.php');
     	/*$song_path = $dir.basename($_FILES['song_url']['name']);
     	 	var_dump($song_path);

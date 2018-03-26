@@ -19,7 +19,7 @@ if($singers){
 if (empty($_POST['submit'])) {
 	?>
 <form action="" method="post">
-	<label for="singer_name">Insert singer_name
+	<label for="singer_name">Въведете име на изпълнител
 		<input type="text" name="singer_name">
 	</label>
 	<input type="submit" name="submit">

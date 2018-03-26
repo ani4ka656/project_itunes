@@ -8,17 +8,16 @@ if(isset($_POST['user_name']) && isset($_POST['user_password'])){
 	
 	$check_query = "SELECT * FROM `users_info` WHERE user_name = '$user_name' AND user_password = '$user_password' LIMIT 1";
 	
-	$result = mysqli_query($conn,$check_query);
+	$check_result = mysqli_query($conn,$check_query);
 	
-	if ($result) {
-		while ($user = mysqli_fetch_assoc($result)) {
-			// var_dump($user);
-			$_SESSION['username'] = $user['user_name'];
-			$_SESSION['user_id'] = $user['user_id'];
-		}
+	if ($check_result) {
+		while ($user = mysqli_fetch_assoc($check_result)) {
+		// var_dump($user);
+		$_SESSION['username'] = $user['user_name'];
+		$_SESSION['user_id'] = $user['user_id'];
 		echo "<h3 class='text-center'>Welcome, ".$_SESSION['username']."</h3>";
-		$row = mysqli_fetch_assoc($result);
-		echo "<div class='btn btn-default btn-lg'><a href='create.php?user_id=" .$row['user_id']. "'>ADD UNIT</a></div>";
+		$row = mysqli_fetch_assoc($check_result);
+		echo "<div class='btn btn-default btn-lg'><a href='create.php'>ADD UNIT</a></div>";
 		echo '<div>'; 
 		$read_query = "SELECT * FROM `songs` JOIN singers ON songs.singer_id=singers.singer_id JOIN users_info ON songs.user_id=users_info.user_id WHERE date_deleted IS NULL";
 		$result= mysqli_query($conn,$read_query);
@@ -39,6 +38,7 @@ if(isset($_POST['user_name']) && isset($_POST['user_password'])){
 			//$one_row = mysqli_fetch_assoc($result);
 			//echo "<div class='btn btn-info'><a href='create.php?user_id=" .$one_row['user_id']. "'>ADD UNIT</a></div>";
 			while($row = mysqli_fetch_assoc($result)){
+				$_SESSION['song_id'] = $row['song_id'];
 				//echo "<div class='btn btn-info'><a href='create.php?user_id=" .$row['user_id']. "'>ADD UNIT</a></div>"; 
 				echo "<tr class='info'>";
 				echo "<td>" . $row['song_id'] . ' </td><td>'.$row['song_name'] . '</td><td>'.$row['song_url'] . '</td><td>'.$row['singer_name'] . '</td><td>'.$row['date_of_publishing'] . '</td><td>'.$row['user_name'] . '</td><td>'.$row['rate'] . '</td>';
@@ -52,7 +52,8 @@ if(isset($_POST['user_name']) && isset($_POST['user_password'])){
 				echo '</div>';	
 				echo '<a href="read_singers.php">Read singers</a>';	
 			}
-	}  else {
+	} 
+	} else {
 			echo "<a href='logggingin.php'>Try again</a>";
 	}
 }
