@@ -1,6 +1,7 @@
 <?php
 include('includes/db.php');
 include('includes/header.php');
+session_start();
 if(empty($_POST['submit'])){
 	$song_id = $_GET['song_id'];
 	$read_query="SELECT * FROM `songs` WHERE `date_deleted` IS NULL";

@@ -1,6 +1,7 @@
 <?php 
 include('includes/header.php');
 include('includes/db.php');
+session_start();
 $song_id = $_GET['song_id'];
 $date = date('Y-m-d');
 $delete_query = "UPDATE songs SET date_deleted ='$date' WHERE song_id = $song_id";

@@ -1,13 +1,22 @@
 <?php
 include('includes/db.php');
 include('includes/header.php');
+session_start();
 if(isset($_POST['user_name']) && isset($_POST['user_password'])){
 	$user_name = $_POST['user_name'];
 	$user_password = $_POST['user_password'];
-	$check_query = "SELECT * FROM `users_info` WHERE user_name = '$user_name' AND user_password = '$user_password'";
+	
+	$check_query = "SELECT * FROM `users_info` WHERE user_name = '$user_name' AND user_password = '$user_password' LIMIT 1";
+	
 	$result = mysqli_query($conn,$check_query);
+	
 	if ($result) {
-		echo "<h3 class='text-center'>Welcome</h3>";
+		while ($user = mysqli_fetch_assoc($result)) {
+			// var_dump($user);
+			$_SESSION['username'] = $user['user_name'];
+			$_SESSION['user_id'] = $user['user_id'];
+		}
+		echo "<h3 class='text-center'>Welcome, ".$_SESSION['username']."</h3>";
 		$row = mysqli_fetch_assoc($result);
 		echo "<div class='btn btn-default btn-lg'><a href='create.php?user_id=" .$row['user_id']. "'>ADD UNIT</a></div>";
 		echo '<div>'; 
@@ -40,7 +49,9 @@ if(isset($_POST['user_name']) && isset($_POST['user_password'])){
 				echo "</tr>";
 			}
 			echo "</table>";
-				echo '</div>';		}
+				echo '</div>';	
+				echo '<a href="read_singers.php">Read singers</a>';	
+			}
 	}  else {
 			echo "<a href='logggingin.php'>Try again</a>";
 	}

@@ -1,20 +1,31 @@
 <?php
 include('includes/db.php');
 include('includes/header.php');
+session_start();
 if(isset($_POST['submit'])){
 	$song_id = $_POST['song_id'];
 	$rate = $_POST['rate'];
-	$update_query = "UPDATE `users_songs` SET `rate_of _user`=$rate WHERE 1";
+	//select за да извадиш рейтинга към момента на тази песен
+	$current_song_rate= "SELECT `rate`  FROM `songs` WHERE song_id = $song_id";
+	$read_rate = mysqli_query($conn, $current_song_rate);
+	var_dump($read_rate);
+	if($read_rate){
+	var_dump($current_song_rate);
+	$new_song_rate = ($current_song_rate + $rate)/2;
+	$update_query = "UPDATE `songs` SET `rate`= $new_song_rate WHERE song_id = $song_id";
 	$update_result = mysqli_query($conn, $update_query);
 	if($update_result){
 		echo "Thank you for your time!";
-		$read_query = "SELECT AVG(`rate_of _user`) FROM `users_songs` WHERE 1";
-		$result = mysqli_query($conn,$read_query);
-		if($result){
-			$update_query = "UPDATE `songs` SET `rate`=(SELECT AVG(`rate_of _user`) FROM `users_songs`)WHERE `date_deleted` IS NULL";
-		}
+		echo "<p><a href='index.php'>Get Back</a></p>";
+		
 	}else{
 		echo "<p><a href='index.php'>Get Back</a></p>";
+	}
+}
+else{
+		echo("Error description: " . mysqli_error($conn)) . " Error NO - ";
+		echo  mysqli_errno($conn);
+
 	}
 } else{
 	$song_id = $_GET['song_id'];
