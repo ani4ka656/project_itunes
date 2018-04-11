@@ -4,10 +4,11 @@ include('includes/header.php');
 session_start();
 if(empty($_POST['submit'])){
 	$song_id = $_GET['song_id'];
-	var_dump($song_id);
-	$read_rate = "SELECT `rate`  FROM `songs` WHERE song_id = $song_id";
+	// var_dump($song_id);
+	$read_rate = "SELECT `song_id`, `rate`  FROM `songs` WHERE song_id = $song_id";
 	$rate_result = mysqli_query($conn, $read_rate);
 	$row = mysqli_fetch_assoc($rate_result);
+	// var_dump($row);
 	echo '<h3 class=" col-md-offset-0 text-center">Форма:</h3>
 	<form method="post" action="rate.php">
 		<div class="form-group text-center col-md-offset-0">

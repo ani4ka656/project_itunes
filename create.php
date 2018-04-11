@@ -47,41 +47,47 @@ if(empty($_POST['submit'])){
     	$submitbutton= $_POST['submit'];
     	//$dir = "songs/";
     	var_dump($_FILES);
-    	//if($_FILES['song_url']['error'] == 0){
-    	//	echo "Не можете да качите песента!";
-    	//}
-    	//if($type != "audio/mp3" || $type != "audio/wav" || $type != "video/mp4") {
-		//	echo("Error description: " . mysqli_error($conn)) . " Error NO - ";
-		//	echo  mysqli_errno($conn);
-    	//	echo "Качвате файл, различен от формата mp3,mp4,wav!";
-    	//}
-    	//if($_FILES['song_url']['error'] == 1){
-    	//	echo "Качвате твърде голям файл!";
-    	//	echo("Error description: " . mysqli_error($conn)) . " Error NO - ";
-		//	echo  mysqli_errno($conn);
-    	} else {
+   		if($_FILES['song_url']['error'] == 1){
+    		echo "Качвате твърде голям файл!";
+    		echo("Error description: " . mysqli_error($conn)) . " Error NO - ";
+			echo  mysqli_errno($conn);
+    	} else{
+    		if($type == "audio/mp3" || $type == "audio/wav" || $type == "video/mp4") {
+			
     	var_dump($_FILES);
- 		$time=	time('Y-m-d-h-m-s');
-    	var_dump($time);
-		if (isset($name)) {
+ 		// $time=	time('Y-m-d-h-m-s');
+   //  	var_dump($time);
+		//if (isset($name)) {
 		$path= 'songs/';
-		if (!empty($name)){
-			if (move_uploaded_file($tmp_name, $path.$name)) {
-			if(!empty($song_name) && !empty($singer_id)){
-				$add_song ='INSERT INTO `songs`(`song_name`,`song_url`, `singer_id`, `date_of_publishing`, `user_id`) VALUES ("$song_name","md5($path.$name.$time)","$singer_id","$date",$_SESSION["user_id"])';
+		//if (!empty($name)){
+		var_dump($song_name);
+		var_dump($name);
+		var_dump($singer_id);
+		var_dump($date);
+		if (move_uploaded_file($tmp_name, $path.$name)) {
+		//	if(!empty($song_name) && !empty($singer_id)){
+				$add_song ="INSERT INTO `songs`(`song_name`,`song_url`, `singer_id`, `date_of_publishing`, `user_id`) VALUES ($song_name, $name, (int)$singer_id, $date, " . (int)$_SESSION['user_id'];
 				$add_res=mysqli_query($conn,$add_song);
-				if($add_song)
-				{
+				//if($add_song)
+				//{
 					echo 'Успешно качена!';
-				}
-			}
-		} elseif (file_exists($filename)) {
-    			echo "Файлът $name вече съществува";
-		}
-		}
-		}
-	}
-	}
+				//}//end if add song
+			//}//end if not emty
+		} //if move uploaded file
+		// elseif (file_exists($filename)) {
+  //   			echo "Файлът $name вече съществува";
+		// }
+		}//end if file format
+		else {
+			echo("Error description: " . mysqli_error($conn)) . " Error NO - ";
+			echo  mysqli_errno($conn);
+    		echo "Качвате файл, различен от формата mp3,mp4,wav!";
+    
+			}//end if file format
+		}//end else file size
+		}//end if isset post submit
+	}//end else
+	
 //}
 include('includes/footer.php');
     	/*$song_path = $dir.basename($_FILES['song_url']['name']);
