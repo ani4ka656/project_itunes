@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 18 март 2018 в 07:16
+-- Generation Time: 12 май 2018 в 09:36
 -- Версия на сървъра: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -39,7 +39,9 @@ CREATE TABLE `singers` (
 
 INSERT INTO `singers` (`singer_id`, `singer_name`) VALUES
 (1, 'BTS'),
-(2, 'Ed Sheeran');
+(2, 'Ed Sheeran'),
+(3, 'Alessia'),
+(7, 'Avicii');
 
 -- --------------------------------------------------------
 
@@ -49,11 +51,11 @@ INSERT INTO `singers` (`singer_id`, `singer_name`) VALUES
 
 CREATE TABLE `songs` (
   `song_id` int(11) NOT NULL,
-  `song_name` varchar(300) NOT NULL,
-  `song_url` varchar(200) NOT NULL,
-  `singer_id` int(11) NOT NULL,
-  `date_of_publishing` date NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `song_name` varchar(300) DEFAULT NULL,
+  `song_url` varchar(200) DEFAULT NULL,
+  `singer_id` int(11) DEFAULT NULL,
+  `date_of_publishing` date DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `rate` int(5) NOT NULL DEFAULT '0',
   `date_deleted` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -64,7 +66,8 @@ CREATE TABLE `songs` (
 
 INSERT INTO `songs` (`song_id`, `song_name`, `song_url`, `singer_id`, `date_of_publishing`, `user_id`, `rate`, `date_deleted`) VALUES
 (1, 'Mic Drop', 'BTS (방탄소년단) MIC Drop (Steve Aoki Remix) Official MV.mp3', 1, '2018-03-16', 1, 4, NULL),
-(2, 'Photograph', 'Ed Sheeran - Photograph with lyrics.mp3', 2, '2018-03-16', 2, 4, NULL);
+(2, 'Photograph', 'Ed Sheeran - Photograph with lyrics.mp3', 2, '2018-03-16', 2, 7, NULL),
+(3, 'test', 'EdSheeran.mp3', 1, '2018-04-20', 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -96,17 +99,16 @@ INSERT INTO `users_info` (`user_id`, `user_name`, `quantity_downloaded_songs`, `
 
 CREATE TABLE `users_songs` (
   `user_id` int(11) NOT NULL,
-  `song_id` int(11) NOT NULL,
-  `rate_of _user` int(11) DEFAULT NULL
+  `song_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Схема на данните от таблица `users_songs`
 --
 
-INSERT INTO `users_songs` (`user_id`, `song_id`, `rate_of _user`) VALUES
-(1, 1, 4),
-(2, 1, 4);
+INSERT INTO `users_songs` (`user_id`, `song_id`) VALUES
+(1, 1),
+(2, 1);
 
 --
 -- Indexes for dumped tables
@@ -147,13 +149,13 @@ ALTER TABLE `users_songs`
 -- AUTO_INCREMENT for table `singers`
 --
 ALTER TABLE `singers`
-  MODIFY `singer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `singer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `songs`
 --
 ALTER TABLE `songs`
-  MODIFY `song_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `song_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users_info`
