@@ -46,7 +46,7 @@ if(empty($_POST['submit'])){
     	$tmp_name = $_FILES['song_url']['tmp_name'];
     	$submitbutton= $_POST['submit'];
     	//$dir = "songs/";
-    	var_dump($_FILES);
+    	// var_dump($_FILES);
    		if($_FILES['song_url']['error'] == 1){
     		echo "Качвате твърде голям файл!";
     		echo("Error description: " . mysqli_error($conn)) . " Error NO - ";
@@ -54,7 +54,7 @@ if(empty($_POST['submit'])){
     	} else{
     		if($type == "audio/mp3" || $type == "audio/wav" || $type == "video/mp4") {
 			
-    	var_dump($_FILES);
+    	// var_dump($_FILES);
  		// $time=	time('Y-m-d-h-m-s');
    //  	var_dump($time);
 		//if (isset($name)) {
@@ -62,12 +62,13 @@ if(empty($_POST['submit'])){
 		//if (!empty($name)){
 		var_dump($song_name);
 		var_dump($name);
-		var_dump($singer_id);
+		var_dump((int)$singer_id);
 		var_dump($date);
+		var_dump((int)$_SESSION['user_id']);
 		if (move_uploaded_file($tmp_name, $path.$name)) {
 		//	if(!empty($song_name) && !empty($singer_id)){
-				$add_song ="INSERT INTO `songs`(`song_name`,`song_url`, `singer_id`, `date_of_publishing`, `user_id`) VALUES ($song_name, $name, (int)$singer_id, $date, " . (int)$_SESSION['user_id'];
-				$add_res=mysqli_query($conn,$add_song);
+				$add_song ="INSERT INTO `songs`(`song_name`, `song_url`, `singer_id`, `date_of_publishing`, `user_id`) VALUES ('$song_name', '$name',".(int)$singer_id .", '$date',".(int)$_SESSION['user_id'].")";
+				$add_res =mysqli_query($conn,$add_song);
 				//if($add_song)
 				//{
 					echo 'Успешно качена!';

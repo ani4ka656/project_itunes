@@ -12,7 +12,7 @@ if(empty($_POST['submit'])){
 	echo '<h3 class=" col-md-offset-0 text-center">Форма:</h3>
 	<form method="post" action="rate.php">
 		<div class="form-group text-center col-md-offset-0">
-			<label for="rate">Въведете вашият рейтинг
+			<label for="rate">Въведете вашият рейтинг от 1-5:
 				<input type="number" name="rate" class="form-control" id="rate" autofocus>
 			</label>	
 		    <input type="hidden" name="song_id" value=' . $row['song_id'] . '>
@@ -48,3 +48,4 @@ else{
 }
 }
 include('includes/footer.php');
+///звездички чрез for

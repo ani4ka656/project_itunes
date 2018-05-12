@@ -35,3 +35,4 @@ if(empty($_POST['submit'])){
 	}
 }
 include('includes/footer.php');
+//тук трябва да се презаписва файла

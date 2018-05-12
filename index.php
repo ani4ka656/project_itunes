@@ -5,20 +5,20 @@ session_start();
 // var_dump(isset($_SESSION['user_id']));
 if((isset($_POST['user_name']) && isset($_POST['user_password'])) || isset($_SESSION['user_id'])){
 	if(!isset($_SESSION['user_id'])){
-		$user_name = $_POST['user_name'];
-		$user_password = $_POST['user_password'];
-
-
+	
+	$user_name = $_POST['user_name'];
+	$user_password = $_POST['user_password'];
 	
 	$check_query = "SELECT * FROM `users_info` WHERE user_name = '$user_name' AND user_password = '$user_password' LIMIT 1";
 	
-	$check_result = mysqli_query($conn,$check_query);
+	$check_result = mysqli_query($conn, $check_query);
+	$user = mysqli_fetch_assoc($check_result);
 
 	
 	if ($check_result) {
 		
-		$_SESSION['username'] = $user['user_name'];
-		$_SESSION['user_id'] = $user['user_id'];
+		$_SESSION['username'] 	= $_POST['user_name'];
+		$_SESSION['user_id'] 	= $user['user_id'];
 	}
 }
 
