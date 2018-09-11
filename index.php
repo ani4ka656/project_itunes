@@ -39,7 +39,7 @@ if(isset($_SESSION['user_id'])){
 		echo "<td>Date of publishing</td>";
 		echo "<td>User who published it</td>";
 		echo "<td>Rate</td>";
-		echo "<td>Update</td>";
+		echo "<td>Download</td>";
 		echo "<td>Delete</td>";
 		echo "<td>Rate</td>";
 		echo "</tr>";
@@ -55,7 +55,7 @@ if(isset($_SESSION['user_id'])){
 
 				// echo "<td><a href='update.php?song_id=" . $row['song_id'] . "'>Update</a></td>";
 				if($row['user_id'] == $_SESSION['user_id']){
-				echo "<td><a href='update.php?song_id=" . $row['song_id'] . "'>Update</a></td>";
+				echo "<td><a href='download.php?song_id=" . $row['song_id'] . "'>Download</a></td>";
 
 				echo "<td><a href='delete.php?song_id=" . $row['song_id'] . "'>Delete</a></td>";
 			} else {
@@ -65,9 +65,9 @@ if(isset($_SESSION['user_id'])){
 				echo "</tr>";
 			}//end while
 			echo "</table>";
-				echo '</div>';	
-				echo '<a href="read_singers.php">Read singers</a>';	
-			}//end if rows
+			echo '</div>';	
+			echo '<div class="btn btn-default btn-lg"><a href="read_singers.php">Read singers</a></div>';	
+		}//end if rows
 	}//if isset session user_id 
 	else {
 			echo "<a href='logggingin.php'>Try again</a>";
