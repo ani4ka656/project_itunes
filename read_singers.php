@@ -59,5 +59,5 @@ if (empty($_POST['submit'])) {
 // 	echo $singer_id;
 
 // }
-
+echo '<p><div class="btn btn-default btn-lg"><a href="loggingout.php">Click here to log out</a></div></p>';
 include('includes/footer.php');

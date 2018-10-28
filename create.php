@@ -72,6 +72,7 @@ if(empty($_POST['submit'])){
 				//if($add_song)
 				//{
 					echo 'Успешно качена!';
+					echo "<div class='btn btn-dark'><p><a href='index.php'>Songs</a></p></div>";
 				//}//end if add song
 			//}//end if not emty
 		} //if move uploaded file
@@ -90,6 +91,7 @@ if(empty($_POST['submit'])){
 	}//end else
 	
 //}
+echo '<p><div class="btn btn-default btn-lg"><a href="loggingout.php">Click here to log out</a></div></p>';
 include('includes/footer.php');
     	/*$song_path = $dir.basename($_FILES['song_url']['name']);
     	 	var_dump($song_path);

@@ -1,37 +1,37 @@
 <?php 
-
+include('includes/db.php');
+include('includes/header.php');
+session_start();
 //данните на потребителя от формата
-$pswd = $_POST['password'];//loginpassword
-$user_name = $_POST['username'];
+$pswd = trim($_POST['user_password']);//loginpassword
+$user_name = trim($_POST['user_name']);
+
 // при регистрация паролата се криптира с password_hash("rasmuslerdorf", PASSWORD_DEFAULT);
-//$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-//влизаме в бд и проверяваме за потребител с такова потребителско име, ако има взимаме му данните
-
-$check_query = "SELECT * FROM `users_info` WHERE user_name = '$user_name' LIMIT 1";
+// $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+// влизаме в бд и проверяваме за потребител с такова потребителско име, ако има взимаме му данните
+$loginpassword = password_hash($pswd, PASSWORD_DEFAULT);
+ //$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+$check_query = "SELECT user_name FROM `users_info` WHERE  `user_name` = '$user_name' LIMIT 1";
 	
-	$check_result = mysqli_query($conn, $check_query);
-	$user = mysqli_fetch_assoc($check_result);
+$check_result = mysqli_query($conn, $check_query);
 
+//var_dump($check_result->num_rows);
 
-//имаме такова потребителско име и проверяваме дали е верна паролата
-//това което е въвел потрелителя в логин формата като парола - loginpassword и това, което сме извадили от базата данни дали съвпадат
+if ( $check_result->num_rows ) {		
+	
+			echo "<p>There is already user with such name get another </p>";
 
-if (password_verify($loginpassword, $user['password'])) {
-    echo 'Password is valid!';
-} else {
-    echo 'Invalid password.';
+	} else {
+
+		$add_user = "INSERT INTO `users_info`( `user_name`, `user_password`) VALUES ('$user_name','$loginpassword')";
+
+		$add_res = mysqli_query($conn,$add_user); 				
+
+		if ( $add_res ) {		
+	
+			echo "<p>Success!</p>";
+			echo "<div class='btn btn-dark'><p><a href='loggingin.php'>Log In</a></p></div>";
+		} else {
+			echo "<div class='btn btn-dark'><p><a href='loggingin.php'>Try again</a></p></div>";
+		}
 }
-
-
-//вариант 2
-
-//преди сравняване да криптираш паролата въведена в логин формата и да търсиш потребител с такова потребителско име и такава криптирана парола
-
-$user_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-$check_query = "SELECT * FROM `users_info` WHERE user_name = '$user_name' AND user_password = '$user_password' LIMIT 1";
-	
-	$check_result = mysqli_query($conn, $check_query);
-	$user = mysqli_fetch_assoc($check_result);
-
-echo $user_password;
